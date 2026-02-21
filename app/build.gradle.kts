@@ -3,9 +3,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 
-    alias(libs.plugins.hilt.android)
+   alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp.android)
-    alias(libs.plugins.kotlin.parcelize)
+alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -41,6 +41,13 @@ android {
     buildFeatures {
         compose = true
     }
+    sourceSets {
+        getByName("main") {
+            assets {
+                srcDirs("src\\main\\assets", "src\\main\\assets")
+            }
+        }
+    }
 }
 
 dependencies {
@@ -53,6 +60,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.constraintlayout.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -64,9 +72,14 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
-
     implementation(libs.androidx.navigation.compose)
+//
+//    implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
-
+//
     implementation(libs.coil.kt.coil.compose)
+
+    implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.media)
+
 }
