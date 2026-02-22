@@ -153,6 +153,11 @@ class PlaybackViewModel@Inject constructor(private val application: Application)
         super.onCleared()
     }
 
+
+    fun withService(block: (MusicService) -> Unit) {
+        musicService?.let(block)
+    }
+
     init {
         startAndBindService()
     }
