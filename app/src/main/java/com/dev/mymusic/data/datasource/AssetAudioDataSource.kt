@@ -54,11 +54,13 @@ class AssetAudioDataSource @Inject constructor(   @ApplicationContext private va
         retriever.release()
 
         return AudioTrack(
+
             assetPath = fileUri,
             title = title,
             artist = artist,
             duration = duration,
-            albumArt = albumArt
+            albumArt = albumArt,
+            trackId = fileName,
         )
     }
 

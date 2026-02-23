@@ -3,6 +3,7 @@ package com.dev.mymusic.ui.playback
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -19,6 +20,8 @@ import com.dev.mymusic.ui.playback.componants.PlaybackContent
 @Composable
 fun PlaybackScreen(
     modifier: Modifier = Modifier, audioTrack: AudioTrack?,
+    onBack: () -> Unit,
+    onOpenEqualizer: () -> Unit,
     viewModel: PlaybackViewModel
 ) {
 
@@ -29,7 +32,10 @@ fun PlaybackScreen(
 
         audioTrack?.let {
             Log.d("MMP", "track 12 ${audioTrack?.title}")
-            viewModel.play(it)
+            if (audioTrack != null && audioTrack.trackId != uiState.currentTrack?.trackId) {
+                viewModel.play(it)
+            }
+
         }
     }
 
@@ -59,6 +65,7 @@ fun PlaybackScreen(
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
+
     PlaybackContent(
         uiState = uiState,
         onPlayPause = {
@@ -67,6 +74,8 @@ fun PlaybackScreen(
         onSeek = { viewModel.seekTo(it) },
         onNext = { viewModel.next() },
         onPrev = { viewModel.previous() },
+        onBack = { onBack()},
+        onOpenEqualizer = {onOpenEqualizer()},
         modifier = modifier
     )
 

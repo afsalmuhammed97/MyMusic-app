@@ -70,7 +70,13 @@ fun AppNavigation(modifier: Modifier = Modifier) {
 
             Log.d("MMM", "product 2 $audioTrack")
 
-            PlaybackScreen(audioTrack = audioTrack, viewModel = playbackViewModel)
+            PlaybackScreen(
+                audioTrack = audioTrack,
+                viewModel = playbackViewModel,
+                onBack = { navController.popBackStack() },
+                onOpenEqualizer = {
+                    navController.navigate(Screens.Equalizer.route)
+                })
         }
 
 

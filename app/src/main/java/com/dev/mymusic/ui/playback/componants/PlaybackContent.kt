@@ -7,16 +7,24 @@ import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Equalizer
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,13 +49,17 @@ import com.dev.mymusic.R
 import com.dev.mymusic.ui.playback.model.MusicPlaybackState
 
 @Composable
-fun PlaybackContent(uiState: MusicPlaybackState,
-                    onPlayPause: () -> Unit,
-                    onSeek: (Int) -> Unit,
-                    onNext: () -> Unit,
-                    onPrev: () -> Unit,
+fun PlaybackContent(
+    uiState: MusicPlaybackState,
+    onPlayPause: () -> Unit,
+    onSeek: (Int) -> Unit,
+    onNext: () -> Unit,
+    onPrev: () -> Unit,
+    onBack: () -> Unit,
+    onOpenEqualizer: () -> Unit,
 
-    modifier: Modifier = Modifier) {
+    modifier: Modifier = Modifier
+) {
 
 
     // Subtle vinyl rotation animation when playing
@@ -70,10 +82,9 @@ fun PlaybackContent(uiState: MusicPlaybackState,
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xFF0D0D0D)) // near-black base
+            .background(Color(0xFF0D0D0D))
     ) {
         // ── Blurred artwork background ─────────────────────────────────────
-
         AsyncImage(
             model = uiState.currentTrack?.albumArt,
             contentDescription = null,
@@ -94,7 +105,7 @@ fun PlaybackContent(uiState: MusicPlaybackState,
                 Brush.verticalGradient(
                     colors = listOf(
                         Color(0x990D0D0D),
-                        Color(0xCC0D0D0D),
+                        Color(0xCC3F3C3C),
                         Color(0xFF0D0D0D)
                     )
                 )
@@ -110,6 +121,40 @@ fun PlaybackContent(uiState: MusicPlaybackState,
             .padding(horizontal = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = onBack) {
+                Icon(
+                    imageVector = Icons.Rounded.ArrowBack,
+                    contentDescription = "Back",
+                    tint = Color.White
+                )
+            }
+
+//            // CENTER — Screen title
+//            Text(
+//                text = "Now Playing",
+//                color = Color.White,
+//                fontSize = 14.sp,
+//                fontWeight = FontWeight.Medium
+//            )
+
+            // RIGHT SIDE — Equalizer button
+            IconButton(onClick = onOpenEqualizer) {
+                Icon(
+                    imageVector = Icons.Rounded.Equalizer,
+                    contentDescription = "Equalizer",
+                    tint = Color(0xFF6C63FF)
+                )
+            }
+
+        }
+
 
         Spacer(Modifier.height(32.dp))
 
@@ -117,7 +162,7 @@ fun PlaybackContent(uiState: MusicPlaybackState,
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
-                .size(300.dp)
+                .size(290.dp)
                 .shadow(
                     elevation = 32.dp,
                     shape = CircleShape,

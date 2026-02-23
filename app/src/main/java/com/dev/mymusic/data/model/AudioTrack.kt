@@ -8,7 +8,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @Parcelize
-data class AudioTrack( val assetPath: Uri,
+data class AudioTrack(val trackId: String,
+    val assetPath: Uri,
                        val title: String,
                        val artist: String?,
                        val duration: Long,
