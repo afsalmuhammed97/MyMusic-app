@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.dev.mymusic.data.repository.AudioRepository
 import com.dev.mymusic.data.repository.AudioRepositoryImpl
+import com.dev.mymusic.domain.waveform.WaveformExtractor
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -16,7 +17,13 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-  
+
+
+    @Provides
+    @Singleton
+    fun provideWaveformExtractor(
+        @ApplicationContext context: Context
+    ): WaveformExtractor = WaveformExtractor(context)
 
     @Provides
     @Singleton

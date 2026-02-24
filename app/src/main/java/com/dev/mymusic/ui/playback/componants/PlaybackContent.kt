@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Equalizer
@@ -51,6 +52,7 @@ import com.dev.mymusic.ui.playback.model.MusicPlaybackState
 @Composable
 fun PlaybackContent(
     uiState: MusicPlaybackState,
+    waveformAmplitudes: List<Float>,
     onPlayPause: () -> Unit,
     onSeek: (Int) -> Unit,
     onNext: () -> Unit,
@@ -156,7 +158,7 @@ fun PlaybackContent(
         }
 
 
-        Spacer(Modifier.height(32.dp))
+        Spacer(Modifier.height(16.dp))
 
         // ── Artwork ───────────────────────────────────────────────────
         Box(
@@ -195,7 +197,7 @@ fun PlaybackContent(
             )
         }
 
-        Spacer(Modifier.height(40.dp))
+        Spacer(Modifier.height(20.dp))
 
         // ── Title + Artist ─────────────────────────────────────────────
         Text(
@@ -210,6 +212,7 @@ fun PlaybackContent(
 
         Spacer(Modifier.height(6.dp))
 
+
         Text(
             text = uiState.currentTrack?.artist ?: "Unknown Artist",
             color = Color(0xFFAAAAAA),
@@ -220,8 +223,39 @@ fun PlaybackContent(
             overflow = TextOverflow.Ellipsis
         )
 
-        Spacer(Modifier.height(40.dp))
+        Spacer(Modifier.height(16.dp))
+       // ── Waveform ──────────────────────────────────────────────────────
 
+    //    Spacer(Modifier.height(40.dp))
+        val progress = if (uiState.durationMs > 0)
+            uiState.currentPositionMs.toFloat() / uiState.durationMs.toFloat()
+        else 0f
+
+        if (waveformAmplitudes.isEmpty()){
+            //place holder
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color(0xFF1A1A2E))
+            )
+        }else{
+
+
+
+            WaveformCanvas(
+                amplitudes = waveformAmplitudes,
+                progress = progress,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp)
+                    .clip(RoundedCornerShape(8.dp))
+            )
+
+        }
+
+        Spacer(Modifier.height(16.dp))
 
         // ── Seek bar ───────────────────────────────────────────────────
         SeekBarSection(
@@ -230,7 +264,7 @@ fun PlaybackContent(
             onSeek = onSeek
         )
 
-        Spacer(Modifier.height(40.dp))
+        Spacer(Modifier.height(20.dp))
 
         // ── Transport controls ─────────────────────────────────────────
         TransportControls(

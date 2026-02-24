@@ -16,3 +16,7 @@ val SurfaceDark = Color(0xFF13131A)
 val SurfaceCard = Color(0xFF1C1C26)
 val TextPrimary = Color(0xFFF0F0FF)
 val TextSecondary = Color(0xFF8888AA)
+
+val playedColor   = Color(0xFF3025DA)
+val unplayedColor = Color(0xFF8CF512)
+val glowColor     = Color(0xFF3F51B5) //.copy(alpha = 0.3f)

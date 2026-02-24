@@ -26,7 +26,7 @@ fun PlaybackScreen(
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
+    val waveformAmplitudes by viewModel.waveformAmplitudes.collectAsStateWithLifecycle()
     // Auto-play when screen opens with a new track
     LaunchedEffect(audioTrack) {
 
@@ -68,6 +68,7 @@ fun PlaybackScreen(
 
     PlaybackContent(
         uiState = uiState,
+        waveformAmplitudes = waveformAmplitudes,              //emptyList(),
         onPlayPause = {
             if (uiState.isPlaying) viewModel.pause() else viewModel.resume()
         },
