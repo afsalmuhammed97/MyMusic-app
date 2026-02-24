@@ -3,6 +3,7 @@ package com.dev.mymusic.ui.navigation
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -36,7 +37,11 @@ fun AppNavigation(modifier: Modifier = Modifier) {
     // Whenever playback state changes (track loads, service connects),
     // give EqualizerViewModel access to the service
     val uiState by playbackViewModel.uiState.collectAsStateWithLifecycle()
-
+    DisposableEffect(Unit) {
+        onDispose {
+            playbackViewModel.stopMusic()
+        }
+    }
 
     LaunchedEffect(uiState.currentTrack) {
         playbackViewModel.withService { service ->

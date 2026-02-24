@@ -66,7 +66,7 @@ class MusicService() : Service() {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
-        startForeground(1001, buildNotification())
+       // startForeground(1001, buildNotification())
     }
 
 
@@ -80,6 +80,9 @@ class MusicService() : Service() {
             ACTION_PAUSE -> pause()
             ACTION_RESUME -> resume()
             ACTION_STOP -> stopPlaybackAndSelf()
+            ACTION_NEXT-> next()
+            ACTION_PREV-> previous()
+
         }
         return START_NOT_STICKY
     }
@@ -287,6 +290,24 @@ class MusicService() : Service() {
             PendingIntent.FLAG_IMMUTABLE
         )
 
+        val nextIntent = PendingIntent.getService(
+            this,
+            3,
+            Intent(this, MusicService::class.java).apply {
+                action = ACTION_NEXT
+            },
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val prevIntent = PendingIntent.getService(
+            this,
+            4,
+            Intent(this, MusicService::class.java).apply {
+                action = ACTION_PREV
+            },
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
         val stopIntent = PendingIntent.getService(
             this,
             2,
@@ -300,9 +321,19 @@ class MusicService() : Service() {
             .setSmallIcon(R.drawable.music_bg)//ic_music_note
             .setContentIntent(openAppIntent)
             .addAction(
+                R.drawable.outline_arrow_back_,
+                "Previous",
+                prevIntent
+            )
+            .addAction(
                 if (isPlaying) R.drawable.info_outline_24 else R.drawable.play_circle_outline_24,
                 if (isPlaying) "Pause" else "Play",
                 pauseResumeIntent
+            )
+            .addAction(
+                R.drawable.outline_arrow_forward_,
+                "Next",
+                nextIntent
             )
             .addAction(R.drawable.outline_cancel_24, "Stop", stopIntent)
             .setStyle(
@@ -343,6 +374,9 @@ class MusicService() : Service() {
         const val ACTION_PAUSE = "com.yourapp.ACTION_PAUSE"
         const val ACTION_RESUME = "com.yourapp.ACTION_RESUME"
         const val ACTION_STOP = "com.yourapp.ACTION_STOP"
+
+        const val ACTION_NEXT = "ACTION_NEXT"
+        const val ACTION_PREV = "ACTION_PREV"
 
         private const val NOTIFICATION_ID = 1001
         private const val CHANNEL_ID = "music_playback_channel"
