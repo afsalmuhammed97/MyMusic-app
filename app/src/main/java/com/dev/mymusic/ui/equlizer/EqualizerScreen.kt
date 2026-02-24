@@ -1,6 +1,7 @@
 package com.dev.mymusic.ui.equlizer
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -32,15 +34,15 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dev.mymusic.ui.equlizer.compoants.EqBandSection
 import com.dev.mymusic.ui.equlizer.compoants.PresetGrid
+import com.dev.mymusic.ui.equlizer.compoants.RotaryKnob
+import com.dev.mymusic.ui.theme.AccentGreen
+import com.dev.mymusic.ui.theme.DarkBg
+import com.dev.mymusic.ui.theme.TextPrimary
+import com.dev.mymusic.ui.theme.TextSecondary
 
 
 // Accent colors
-private val AccentGreen = Color(0xFF00E5A0)
-private val DarkBg = Color(0xFF0A0A0F)
-private val SurfaceDark = Color(0xFF13131A)
-private val SurfaceCard = Color(0xFF1C1C26)
-private val TextPrimary = Color(0xFFF0F0FF)
-private val TextSecondary = Color(0xFF8888AA)
+
 @Composable
 fun EqualizerScreen (modifier: Modifier = Modifier,onBack: () -> Unit,
                    viewModel: EqualizerViewModel = hiltViewModel()
@@ -112,8 +114,6 @@ fun EqualizerScreen (modifier: Modifier = Modifier,onBack: () -> Unit,
             Spacer(Modifier.height(32.dp))
 
 
-
-
             // ── Preset label ──────────────────────────────────────────────────
             Text(
                 text = "PRESETS",
@@ -134,8 +134,49 @@ fun EqualizerScreen (modifier: Modifier = Modifier,onBack: () -> Unit,
             )
 
 
-        }
+           // Spacer(Modifier.height(12.dp))
+//            Text(
+//                text = "BASS & TREBLE",
+//                color = TextSecondary,
+//                fontSize = 11.sp,
+//                fontWeight = FontWeight.Bold,
+//                letterSpacing = 2.sp,
+//                modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)
+//            )
+            /*
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 32.dp, vertical = 16.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
 
+                RotaryKnob(
+                    label = "Bass",
+                    value = uiState.bassValue,
+                    onValueChange = { viewModel.setBass(it) },
+                    accentColor = Color(0xFF6C63FF)  // purple for bass
+                )
+
+                // Center divider
+                Box(
+                    modifier = Modifier
+                        .width(1.dp)
+                        .height(60.dp)
+                        .background(Color(0xFF2A2A3A))
+                )
+
+                RotaryKnob(
+                    label         = "Treble",
+                    value         = uiState.trebleValue,
+                    onValueChange = { viewModel.setTreble(it) },
+                    accentColor   = Color(0xFF00E5A0)  // green for treble
+                )
+            }
+
+             */
+        }
 
 }
 }

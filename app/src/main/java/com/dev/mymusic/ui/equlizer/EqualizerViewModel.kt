@@ -70,10 +70,28 @@ class EqualizerViewModel  @Inject constructor(private val prefs: SharedPreferenc
         persistState(EqualizerPreset.FLAT, newGains)
     }
 
+
+    fun setBass(value: Float) {
+        _uiState.update { it.copy(bassValue = value) }
+        // Bass = band 0 (60Hz) — map 0..1 to -1500..+1500 mB
+        val gainMb = ((value * 3000f) - 1500f).toInt()
+        setBandGain(0, gainMb)
+    }
+
+
+    fun setTreble(value: Float) {
+        _uiState.update { it.copy(trebleValue = value) }
+        // Treble = band 4 (14kHz)
+        val gainMb = ((value * 3000f) - 1500f).toInt()
+        setBandGain(4, gainMb)
+    }
+
     // ── Apply to Android Equalizer API via service ────────────────────────────
     private fun applyBandsToService(gains: List<Int>) {
         musicService?.applyEqualizer(gains)
     }
+
+
 
 
 

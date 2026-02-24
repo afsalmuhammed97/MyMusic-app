@@ -18,5 +18,9 @@ val TextPrimary = Color(0xFFF0F0FF)
 val TextSecondary = Color(0xFF8888AA)
 
 val playedColor   = Color(0xFF3025DA)
+val knobColor   = Color(0xFF2A2A3A)
+val knobCircleColor   = Color(0xFF13131A)
 val unplayedColor = Color(0xFF8CF512)
+val whiteColor = Color(0xFFF0F0FF)
 val glowColor     = Color(0xFF3F51B5) //.copy(alpha = 0.3f)
+
