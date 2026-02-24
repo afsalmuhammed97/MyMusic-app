@@ -28,80 +28,40 @@ Presentation (UI)  →  ViewModel  →  Domain  →  Data
 
 ```
 com.dev.mymusic/
+com.dev.mymusic/
 │
 ├── 📁 data/
 │   ├── 📁 model/
-│   │   └── AudioTrack.kt              # Data class — id, title, artist,
-│   │                                  # duration, albumArt, assetPath
+│   │   └── AudioTrack.kt
 │   │
 │   ├── 📁 repository/
-│   │   ├── AudioRepository.kt         # Interface — defines getTracks()
-│   │   └── AudioRepositoryImpl.kt     # Calls AssetAudioDataSource,
-│   │                                  # maps raw data to AudioTrack list
+│   │   ├── AudioRepository.kt
+│   │   └── AudioRepositoryImpl.kt
 │   │
 │   └── 📁 datasource/
-│       └── AssetAudioDataSource.kt    # Reads mp3 files from res/raw/
-│                                      # Extracts metadata via
-│                                      # MediaMetadataRetriever
+│       └── AssetAudioDataSource.kt
 │
 ├── 📁 domain/
 │   ├── 📁 equalizer/
-│   │   └── EqualizerPreset.kt         # Enum: FLAT, ROCK, JAZZ,
-│   │                                  # CLASSICAL, POP, VOCAL
-│   │                                  # bandGains → 5 mB values per preset
-│   │                                  # BAND_LABELS → frequency labels
+│   │   └── EqualizerPreset.kt
 │   │
 │   └── 📁 waveform/
-│       └── WaveformExtractor.kt       # Decodes audio via MediaCodec
-│                                      # Returns 100 normalized amplitudes
+│       └── WaveformExtractor.kt
 │
 ├── 📁 service/
-│   └── MusicService.kt                # Foreground Service — core engine
-│                                      # Owns MediaPlayer lifecycle
-│                                      # Owns Equalizer (AudioEffect API)
-│                                      # Owns Visualizer (real-time FFT)
-│                                      # Exposes StateFlow<MusicPlaybackState>
-│                                      # Handles play/pause/seek/next/prev
-│                                      # Persistent media notification
+│   └── MusicService.kt
 │
 ├── 📁 di/
-│   ├── AppModule.kt                   # Provides SharedPreferences,
-│   │                                  # WaveformExtractor
-│   └── RepositoryModule.kt            # Binds AudioRepository impl
+│   ├── AppModule.kt
+│   └── RepositoryModule.kt
 │
 ├── 📁 ui/
 │   ├── 📁 tracklist/
-│   │   ├── TrackListScreen.kt         # Track list + MiniPlayer bottom bar
-│   │   ├── TrackListViewModel.kt      # Loads tracks from repository
-│   │   └── 📁 components/
-│   │       └── TrackItem.kt           # Single track row component
-│   │
 │   ├── 📁 playback/
-│   │   ├── PlaybackScreen.kt          # Now Playing full-screen UI
-│   │   ├── PlaybackViewModel.kt       # Service binding + state bridge
-│   │   ├── MusicPlaybackState.kt      # UI state data class
-│   │   └── 📁 components/
-│   │       ├── SeekBarSection.kt      # Progress slider + timestamps
-│   │       ├── TransportControls.kt   # Prev/Play/Next buttons
-│   │       ├── SpectrumVisualizer.kt  # Real-time FFT dancing bars
-│   │       └── WaveformCanvas.kt      # Static decoded waveform
-│   │
 │   ├── 📁 equalizer/
-│   │   ├── EqualizerScreen.kt         # EQ full screen UI
-│   │   ├── EqualizerViewModel.kt      # Band gains, presets, persistence
-│   │   ├── EqualizerUiState.kt        # EQ state data class
-│   │   └── 📁 components/
-│   │       ├── EqBandSection.kt       # Curve + sliders container
-│   │       ├── EqCurveCanvas.kt       # Cubic bezier EQ curve
-│   │       ├── EqBandSlider.kt        # Single vertical frequency slider
-│   │       ├── PresetGrid.kt          # 3×2 preset chip grid
-│   │       └── RotaryKnob.kt          # Canvas-drawn draggable knob
-│   │
 │   └── 📁 navigation/
-│       ├── AppNavigation.kt           # NavHost, Activity-scoped ViewModels
-│       └── Screens.kt                 # Route definitions
 │
-└── MainActivity.kt                    # Entry point, notification permission
+└── MainActivity.kt
 
 ```
 Instead of raw or asset, you can implement local media using the content resolver. Here, we are using the asset folder for it
