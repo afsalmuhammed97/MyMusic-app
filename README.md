@@ -28,7 +28,6 @@ Presentation (UI)  →  ViewModel  →  Domain  →  Data
 
 ```
 com.dev.mymusic/
-com.dev.mymusic/
 │
 ├── 📁 data/
 │   ├── 📁 model/
