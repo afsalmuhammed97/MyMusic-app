@@ -24,43 +24,47 @@ Presentation (UI)  →  ViewModel  →  Domain  →  Data
   Compose              StateFlow    Repository  DataSource
   Screens             AndroidVM     Interface   MediaMetadata
 
+
+
+```
 ## 📁 Project Structure
 
 ```
 com.dev.mymusic/
 │
-├── 📁 data/
-│   ├── 📁 model/
+├── data/
+│   ├── model/
 │   │   └── AudioTrack.kt
 │   │
-│   ├── 📁 repository/
+│   ├── repository/
 │   │   ├── AudioRepository.kt
 │   │   └── AudioRepositoryImpl.kt
 │   │
-│   └── 📁 datasource/
+│   └── datasource/
 │       └── AssetAudioDataSource.kt
 │
-├── 📁 domain/
-│   ├── 📁 equalizer/
+├── domain/
+│   ├── equalizer/
 │   │   └── EqualizerPreset.kt
 │   │
-│   └── 📁 waveform/
+│   └── waveform/
 │       └── WaveformExtractor.kt
 │
-├── 📁 service/
+├── service/
 │   └── MusicService.kt
 │
-├── 📁 di/
+├── di/
 │   ├── AppModule.kt
 │   └── RepositoryModule.kt
 │
-├── 📁 ui/
-│   ├── 📁 tracklist/
-│   ├── 📁 playback/
-│   ├── 📁 equalizer/
-│   └── 📁 navigation/
+├── ui/
+│   ├── tracklist/
+│   ├── playback/
+│   ├── equalizer/
+│   └── navigation/
 │
 └── MainActivity.kt
+```
 
 ```
 Instead of raw or asset, you can implement local media using the content resolver. Here, we are using the asset folder for it
