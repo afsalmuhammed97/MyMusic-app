@@ -9,3 +9,18 @@ val Pink80 = Color(0xFFEFB8C8)
 val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
+
+val AccentGreen = Color(0xFF00E5A0)
+val DarkBg = Color(0xFF0A0A0F)
+val SurfaceDark = Color(0xFF13131A)
+val SurfaceCard = Color(0xFF1C1C26)
+val TextPrimary = Color(0xFFF0F0FF)
+val TextSecondary = Color(0xFF8888AA)
+
+val playedColor   = Color(0xFF3025DA)
+val knobColor   = Color(0xFF2A2A3A)
+val knobCircleColor   = Color(0xFF13131A)
+val unplayedColor = Color(0xFF8CF512)
+val whiteColor = Color(0xFFF0F0FF)
+val glowColor     = Color(0xFF3F51B5) //.copy(alpha = 0.3f)
+

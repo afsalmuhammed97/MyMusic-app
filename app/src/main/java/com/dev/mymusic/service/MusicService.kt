@@ -8,6 +8,7 @@ import android.app.Service
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.MediaPlayer
+import android.media.audiofx.Equalizer
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
@@ -54,6 +55,9 @@ class MusicService() : Service() {
 
     // ── Internals ─
     private var mediaPlayer: MediaPlayer? = null
+    private var lastEqualizerGains: List<Int>? = null
+
+    private var equalizer: Equalizer? = null
     private val serviceScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private var progressJob: Job? = null
 
@@ -95,7 +99,9 @@ class MusicService() : Service() {
 
         progressJob?.cancel()
         serviceScope.cancel()
+        equalizer?.release()
         mediaPlayer?.release()
+        equalizer = null
         mediaPlayer = null
         super.onDestroy()
     }
@@ -123,6 +129,35 @@ class MusicService() : Service() {
         currentIndex = if (currentIndex <= 0) trackList.lastIndex else currentIndex - 1
         play(trackList[currentIndex])
     }
+
+    fun applyEqualizer(gains: List<Int>) {
+        lastEqualizerGains = gains
+        val eq = equalizer ?: return
+        try {
+            gains.forEachIndexed { index, gainMb ->
+                if (index < eq.numberOfBands) {
+                    eq.setBandLevel(index.toShort(), gainMb.toShort())
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("MMP", "Failed to apply equalizer bands", e)
+        }
+    }
+
+
+    private fun initEqualizer(audioSessionId: Int) {
+        equalizer?.release()
+        try {
+            equalizer = Equalizer(0, audioSessionId).apply {
+                enabled = true
+            }
+            // Re-apply last known gains if equalizer was configured
+            lastEqualizerGains?.let { applyEqualizer(it) }
+        } catch (e: Exception) {
+            Log.e("MMP", "Equalizer init failed", e)
+        }
+    }
+
     // Playback Controlls
 
 
@@ -143,6 +178,7 @@ class MusicService() : Service() {
             setDataSource(applicationContext, track.assetPath)
             setOnPreparedListener { mp ->
                 mp.start()
+                initEqualizer(mp.audioSessionId)
                 _playbackState.update {
                     it.copy(
                         isLoading = false, isPlaying = true,

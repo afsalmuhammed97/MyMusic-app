@@ -7,6 +7,8 @@ sealed class Screens (val route: String) {
 
     object Playback : Screens("playback")
 
+    object Equalizer: Screens("equalizer")
+
 //    object Details : Screens("details/{trackId}") {
 //        fun createRoute(trackId: String) = "details/$trackId"
 //    }

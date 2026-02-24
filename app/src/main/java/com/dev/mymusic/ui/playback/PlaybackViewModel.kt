@@ -13,6 +13,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dev.mymusic.data.model.AudioTrack
+import com.dev.mymusic.domain.waveform.WaveformExtractor
 import com.dev.mymusic.service.MusicService
 import com.dev.mymusic.ui.playback.model.MusicPlaybackState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,10 +26,21 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PlaybackViewModel@Inject constructor(private val application: Application): AndroidViewModel(application) {
+class PlaybackViewModel@Inject constructor(
+    private val application: Application,
+    private val waveformExtractor: WaveformExtractor
+): AndroidViewModel(application) {
     private var musicService: MusicService? = null
 
     private var isBound = false
+
+    // Waveform state
+    private val _waveformAmplitudes = MutableStateFlow<List<Float>>(emptyList())
+    val waveformAmplitudes: StateFlow<List<Float>> = _waveformAmplitudes.asStateFlow()
+
+    private val _fftData = MutableStateFlow<FloatArray>(FloatArray(32))
+    val fftData: StateFlow<FloatArray> = _fftData.asStateFlow()
+
 
     private val _uiState = MutableStateFlow(MusicPlaybackState())
     val uiState: StateFlow<MusicPlaybackState> = _uiState.asStateFlow()
@@ -36,6 +48,16 @@ class PlaybackViewModel@Inject constructor(private val application: Application)
     private var selectedTrack: AudioTrack? = null
 
     private var serviceStateJob: Job? = null
+
+
+    private fun loadWaveform(track: AudioTrack) {
+        viewModelScope.launch {
+            _waveformAmplitudes.value = emptyList()
+            _waveformAmplitudes.value = waveformExtractor.extract(track.assetPath)
+            Log.d("Waveform", "asset in  ${track.assetPath}")
+        }
+    }
+
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(
@@ -123,8 +145,12 @@ class PlaybackViewModel@Inject constructor(private val application: Application)
             selectedTrack = track
             // Immediately reflect in UI so screen shows track info while loading
             _uiState.update { it.copy(currentTrack = track, isLoading = true) }
+
+
+
             return
         }
+        loadWaveform(track)
         musicService?.play(track)
     }
     fun pause()                  = musicService?.pause()
@@ -151,6 +177,11 @@ class PlaybackViewModel@Inject constructor(private val application: Application)
             isBound = false
         }
         super.onCleared()
+    }
+
+
+    fun withService(block: (MusicService) -> Unit) {
+        musicService?.let(block)
     }
 
     init {
