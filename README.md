@@ -115,9 +115,71 @@ AssetAudioDataSource ──► AudioRepositoryImpl ──► TrackListViewModel
 | **Image Loading** | Coil |
 | **Async** | Kotlin Coroutines |
 
+
+
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Android Studio Hedgehog or later
+- Min SDK 26 (Android 8.0)
+- Kotlin 1.9+
+
+### Setup
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/yourusername/mymusic.git
+cd mymusic
+```
+```
 2. **Add your audio files**
 
 Place `.mp3` files in `app/src/main/assets/`. The app uses `AssetManager` to automatically discover and load all `.mp3` files at runtime — no code changes needed when adding new tracks:
+```
+app/src/main/assets/
+├── song1.mp3
+├── song2.mp3
+└── song3.mp3
+```
+
+3. **Build and run**
+```bash
+./gradlew assembleDebug
+```
+
+## 📦 Dependencies
+
+```kotlin
+// Jetpack Compose
+implementation "androidx.compose.ui:ui"
+implementation "androidx.compose.material3:material3"
+implementation "androidx.activity:activity-compose"
+
+// Navigation
+implementation "androidx.navigation:navigation-compose"
+
+// Hilt
+implementation "com.google.dagger:hilt-android"
+kapt "com.google.dagger:hilt-compiler"
+implementation "androidx.hilt:hilt-navigation-compose"
+
+// Lifecycle
+implementation "androidx.lifecycle:lifecycle-viewmodel-compose"
+implementation "androidx.lifecycle:lifecycle-runtime-compose"
+
+// Coil (image loading)
+implementation "io.coil-kt:coil-compose"
+
+// Media
+implementation "androidx.media:media"
+```
+
+
+
+---
+
+
 
 
 
