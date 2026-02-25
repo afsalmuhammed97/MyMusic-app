@@ -15,7 +15,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dev.mymusic.ui.theme.AccentGreen
+import com.dev.mymusic.ui.theme.Pink40
 import com.dev.mymusic.ui.theme.SurfaceCard
+import com.dev.mymusic.ui.theme.TextPrimary
 import com.dev.mymusic.ui.theme.TextSecondary
 
 @Composable
@@ -36,7 +38,7 @@ fun EqBandSlider(
         // dB value
         Text(
             text = "${if (gainDb >= 0) "+" else ""}${"%.0f".format(gainDb)}",
-            color = if (gainMb != 0) AccentGreen else TextSecondary,
+            color = if (gainMb > 0) AccentGreen else TextPrimary,
             fontSize = 11.sp,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
@@ -52,7 +54,7 @@ fun EqBandSlider(
             value = gainMb.toFloat(),
             onValueChange = { onGainChanged(it.toInt()) },
             valueRange = -1500f..1500f,
-            modifier = Modifier.width(180.dp),//.height(180.dp),
+            modifier = Modifier.width(180.dp),
             colors = SliderColors(
 
 

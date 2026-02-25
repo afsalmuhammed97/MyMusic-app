@@ -66,7 +66,7 @@ class MusicService() : Service() {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
-       // startForeground(1001, buildNotification())
+        startForeground(1001, buildNotification())
     }
 
 
@@ -161,7 +161,7 @@ class MusicService() : Service() {
         }
     }
 
-    // Playback Controlls
+    // Playback Controls
 
 
     fun play(track: AudioTrack) {
